@@ -17,6 +17,10 @@ const store = createStore((state = {count:0}, action) => {
             return {
                 count: 0
             }
+        case 'SET':
+            return {
+                count: action.count
+            }
         default:
             return state;
     }
@@ -29,7 +33,7 @@ const unsubscribe = store.subscribe(() =>{
 
 store.dispatch({
     type: 'INCREMENT',
-    incrementBy: 100
+    incrementBy: 10
 });
 
 store.dispatch({
@@ -48,5 +52,10 @@ store.dispatch({
 
 store.dispatch({
     type: 'DECREMENT',
-    decrementBy: 15
+    decrementBy: 1
+});
+
+store.dispatch({
+    type: 'SET',
+    count: 101
 });

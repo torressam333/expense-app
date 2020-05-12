@@ -1,17 +1,36 @@
 import {createStore} from "redux";
 
+//Action Generators
+const incrementCount = ({incrementBy = 1} = {}) => ({
+    type: 'INCREMENT',
+    incrementBy
+});
+
+const decrementCount = ({decrementBy = 1} = {}) => ({
+        type: 'DECREMENT',
+        decrementBy
+});
+
+const resetCount = () => ({
+   type: 'RESET'
+});
+
+const setCount = () => ({
+    type: 'SET',
+    count: 10
+});
+
+
 const store = createStore((state = {count:0}, action) => {
-    const incrementBy = typeof action.incrementBy === 'number' ? action.incrementBy : 1
-    const decrementBy = typeof action.decrementBy === 'number' ? action.decrementBy: 1;
 
     switch (action.type) {
         case 'INCREMENT':
             return {
-                count: state.count + incrementBy
+                count: state.count + action.incrementBy
             }
         case 'DECREMENT':
             return {
-                count: state.count - decrementBy
+                count: state.count - action.decrementBy
             }
         case 'RESET':
             return {
@@ -30,32 +49,14 @@ const unsubscribe = store.subscribe(() =>{
     console.log(store.getState());
 });
 
+store.dispatch(incrementCount({incrementBy: 3}));
 
-store.dispatch({
-    type: 'INCREMENT',
-    incrementBy: 10
-});
+store.dispatch(incrementCount());
 
-store.dispatch({
-    type: 'INCREMENT'
-});
+store.dispatch(resetCount());
 
-//Reset the count
-store.dispatch({
-    type: 'RESET'
-});
+store.dispatch(decrementCount());
 
-//Decrement
-store.dispatch({
-    type: 'DECREMENT'
-});
+store.dispatch(decrementCount({decrementBy: 10}));
 
-store.dispatch({
-    type: 'DECREMENT',
-    decrementBy: 1
-});
-
-store.dispatch({
-    type: 'SET',
-    count: 101
-});
+store.dispatch(setCount());

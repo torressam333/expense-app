@@ -1,52 +1,65 @@
 import {createStore, combineReducers} from "redux";
 
-
-//EXPENSES REDUCER
-
+//Expenses Array Reducer
 const expensesReducerDefaultState = [];
+
 const expensesReducer = (state = expensesReducerDefaultState, action) => {
-    switch (action.type) {
+    //Return new state
+    switch (action.type)
+    {
         default:
             return state;
     }
 };
 
+//Filters reducer
 const filtersReducerDefaultState = {
     text: '',
     sortBy: 'date',
     startDate: undefined,
-    endDate: undefined,
-};
-const filterReducer = (state = filtersReducerDefaultState, action) => {
-  switch (action.type) {
-      default:
-          return state
-  }
+    endDate: undefined
 };
 
-//Store Creation
+const filtersReducer = (state = filtersReducerDefaultState, action) => {
+    //Return new state
+    switch (action.type)
+    {
+        default:
+            return state;
+    }
+};
+
+
+//Store creation
 const store = createStore(
     combineReducers({
         expenses: expensesReducer,
-        filters: filterReducer,
+        filters: filtersReducer
     })
 );
 
 console.log(store.getState());
 
 const demoState = {
-  expenses: [{
-      id: 'd5a5ds',
-      description: 'January Rend',
-      note: 'Final payment for that address',
-      amount: 54500, //Pennies
-      createdAt: 0
-  }],
+    //Expenses array and relevant data
+    expenses: [{
+        id: 'fakeID',
+        description: 'June Rent',
+        note: 'This is final payment for June',
+        amount: 54500,
+        createdAt: 0
+    }],
+    //Filters users can apply
     filters: {
         text: 'rent',
-        sortBy: 'amount', //Date or amount
+        sortBy: 'amount', //date or amount
         startDate: undefined,
-        endDate: undefined,
+        endDate: undefined
     }
 };
 
+/*
+* Create a reducer for Expenses and one for Filters
+* Use combineReducers to combine them together to create
+  the complete store.
+* */

@@ -22,6 +22,12 @@ const addExpense = (
     }
 });
 
+//REMOVE_EXPENSE
+const removeExpense = ({ id } = {}) => ({ //Destructure object, if none exist, destructure an empty object
+    type: 'REMOVE_EXPENSE',
+    id
+});
+
 
 //Expenses Array Reducer
 const expensesReducerDefaultState = [];
@@ -30,6 +36,15 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
     //Return new state
     switch (action.type)
     {
+        case 'ADD_EXPENSE':
+            return [
+                //old array
+                ...state,
+                //Create new array with new state
+                action.expense
+            ];
+        case 'REMOVE_EXPENSE':
+            return state.filter(({id}) => id !== action.id); //Return = True: keep item, False: remove item from array
         default:
             return state;
     }
@@ -52,7 +67,6 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
     }
 };
 
-
 //Store creation
 const store = createStore(
     combineReducers({
@@ -61,7 +75,23 @@ const store = createStore(
     })
 );
 
-console.log(store.getState());
+//Add an expense
+store.subscribe(() =>{
+    console.log(store.getState());
+});
+
+const expense1 = store.dispatch(addExpense({
+    description: 'Rent',
+    amount: '10000'
+}));
+
+const expense2 = store.dispatch(addExpense({
+    description: 'Coffee',
+    amount: '300'
+}));
+
+store.dispatch(removeExpense({id: expense1.expense.id}))
+
 
 const demoState = {
     //Expenses array and relevant data
@@ -80,9 +110,3 @@ const demoState = {
         endDate: undefined
     }
 };
-
-/*
-* Create a reducer for Expenses and one for Filters
-* Use combineReducers to combine them together to create
-  the complete store.
-* */
